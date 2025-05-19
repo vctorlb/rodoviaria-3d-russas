@@ -3,7 +3,6 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 import numpy as np
 
-
 def draw_soccer_field():
     # Dimensões oficiais
     field_length = 105.0

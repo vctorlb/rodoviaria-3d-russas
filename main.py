@@ -4,6 +4,7 @@ from OpenGL.GLU import *
 import numpy as np
 from camera import Camera
 from campo import draw_soccer_field
+from vestiario import vestiario
 from bola import draw_ball
 
 def main():
@@ -35,6 +36,12 @@ def main():
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         
         camera.update_camera()
+        glPushMatrix()
+        glTranslatef(-24.0, 0.0, 61.0)
+        glScalef(4.0, 4.0, 4.0)
+        vestiario()
+        glPopMatrix()
+
         draw_soccer_field()
 
         draw_ball()
