@@ -4,6 +4,7 @@ from OpenGL.GLU import *
 import numpy as np
 from camera import Camera
 from campo import draw_soccer_field
+from bola import draw_ball
 
 def main():
     if not glfw.init():
@@ -35,6 +36,8 @@ def main():
         
         camera.update_camera()
         draw_soccer_field()
+
+        draw_ball()
         
         glfw.swap_buffers(window)
 
