@@ -1,54 +1,14 @@
-import glfw
-from OpenGL.GL import *
-from OpenGL.GLU import *
-import numpy as np
-from camera import Camera
-from campo import draw_soccer_field
-from vestiario import vestiario
-from bola import draw_ball
+import sys
+import os
 
-def main():
-    if not glfw.init():
-        return
+# Adiciona o diretório 'src' ao path para que os módulos possam ser encontrados
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), 'src')))
 
-    width, height = 1280, 720
-    window = glfw.create_window(width, height, "Campo de Futebol 3D", None, None)
-    if not window:
-        glfw.terminate()
-        return
-
-    glfw.make_context_current(window)
-    camera = Camera(width, height)
-    glfw.set_key_callback(window, camera.key_callback)
-    glfw.set_cursor_pos_callback(window, camera.mouse_callback)
-    glfw.set_input_mode(window, glfw.CURSOR, glfw.CURSOR_DISABLED)
-
-    glEnable(GL_DEPTH_TEST)
-    glMatrixMode(GL_PROJECTION)
-    gluPerspective(90, width/height, 0.1, 100.0)
-    glMatrixMode(GL_MODELVIEW)
-
-    while not glfw.window_should_close(window):
-        glfw.poll_events()
-        camera.process_input(window)
-        
-        glClearColor(0.53, 0.81, 0.98, 1.0)
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
-        
-        camera.update_camera()
-        glPushMatrix()
-        glTranslatef(-24.0, 0.0, 61.0)
-        glScalef(4.0, 4.0, 4.0)
-        vestiario()
-        glPopMatrix()
-
-        draw_soccer_field()
-
-        draw_ball()
-        
-        glfw.swap_buffers(window)
-
-    glfw.terminate()
+from app import App
 
 if __name__ == "__main__":
-    main()
+    try:
+        areninha_app = App(width=1920, height=1080)
+        areninha_app.run()
+    except Exception as e:
+        print(f"Ocorreu um erro ao executar a aplicação: {e}")
