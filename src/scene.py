@@ -20,17 +20,22 @@ class Scene:
         self.field = SoccerField(self.textures['grass'])
         self.environment = Environment(self.field_dims[0], self.field_dims[1], self.textures['sidewalk'], self.textures['street'])
         
-        locker_room_x = self.field_dims[0] / 2 + self.sidewalk_width / 2
-        locker_room_z = self.field_dims[1] / 3.5
-        self.locker_room = LockerRoom(position=(locker_room_x, 0.0, locker_room_z), scale=(3.0, 3.0, 3.0), rotation_y=-90)
+        locker_room_x = -self.field_dims[0] / 2 - self.sidewalk_width / 2
+        locker_room_z = -self.field_dims[1] / 3.5
+        self.locker_room = LockerRoom(
+        position=(28.0, 0.0, -60.5),
+        scale=(3.0, 4.5, 4.0),
+        rotation_y= 0.0
+)
+
         
         self.fence = Fence(self.field_dims[0], self.field_dims[1], 6.0, gate_pos=locker_room_z)
         
         self.ball = Ball(position=(0, 0.22, 0))
 
         self.goals = [
-            Goal(position=(0, 0, -self.field_dims[1]/2)),
-            Goal(position=(0, 0, self.field_dims[1]/2), rotation_y=180)
+            Goal(position=(0, 0, -self.field_dims[1]/2 + 1)),
+            Goal(position=(0, 0, self.field_dims[1]/2 - 1), rotation_y=180)
         ]
 
         reflector_x_pos = self.field_dims[0] / 2 + self.sidewalk_width / 2
@@ -42,9 +47,14 @@ class Scene:
         self.reflectors = [ReflectorPost(pos) for pos in self.reflector_positions]
         
         self.colliders = [self.locker_room]
+        self.colliders = [self.locker_room, self.fence]
+
 
     def get_colliders(self):
         return self.colliders
+    
+    
+
         
     def draw(self, lighting_manager, is_day):
         self.skybox.draw()
