@@ -27,6 +27,8 @@ class Scene:
         self.fence = Fence(self.field_dims[0], self.field_dims[1], 6.0, gate_pos=locker_room_z)
         
         self.ball = Ball(position=(0, 0.22, 0))
+        self.ball_speed = 10.0
+        self.ball_direction = np.array([0.0, 0.0, 0.0])
 
         self.goals = [
             Goal(position=(0, 0, -self.field_dims[1]/2)),

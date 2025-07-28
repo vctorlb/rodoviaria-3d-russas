@@ -21,6 +21,8 @@ class Camera:
         # Dicionário para guardar o estado das teclas, agora preenchido pela classe App
         self.keys = {}
         self.is_top_down_view = False
+        self.follow_ball = False  # Novo modo de câmera que segue a bola
+        self.ball_offset = np.array([0, 2, 5])  # Offset da câmera em relação à bola
 
     def process_input(self, window, delta_time, colliders):
         """Processa o input de movimento da câmera com base no estado das teclas."""
@@ -72,7 +74,7 @@ class Camera:
         yoffset *= self.sensitivity
 
         self.yaw += xoffset
-        self.pitch = np.clip(self.pitch + yoffset, -89.0, 89.0)
+        # self.pitch = np.clip(self.pitch + yoffset, -89.0, 89.0)
 
         # Atualiza o vetor frontal da câmera com base nos ângulos de yaw e pitch
         direction = np.array([
