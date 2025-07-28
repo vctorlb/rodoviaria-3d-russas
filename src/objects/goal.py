@@ -1,41 +1,61 @@
 from OpenGL.GL import *
-from assets.primitives import Primitives
 
 class Goal:
-    def __init__(self, position, rotation_y=0):
+    def __init__(self, position, rotation_y=0, obj_path="src\obj\Soccergoal.obj"):
         self.position = position
         self.rotation_y = rotation_y
-        
-        self.height = 3.0
-        self.width = 7.32
-        self.post_thickness = 0.2
+        self.vertices, self.textures, self.normals, self.faces = self.load_obj(obj_path)
+
+    def load_obj(self, filename):
+        vertices = []
+        textures = []
+        normals = []
+        faces = []
+
+        with open(filename, 'r') as file:
+            for line in file:
+                if line.startswith('v '):  # vértice
+                    parts = line.split()
+                    vertex = list(map(float, parts[1:4]))
+                    vertices.append(vertex)
+                elif line.startswith('vt '):  # textura
+                    parts = line.split()
+                    texture = list(map(float, parts[1:3]))
+                    textures.append(texture)
+                elif line.startswith('vn '):  # normal
+                    parts = line.split()
+                    normal = list(map(float, parts[1:4]))
+                    normals.append(normal)
+                elif line.startswith('f '):  # face
+                    parts = line.split()
+                    face = []
+                    for part in parts[1:]:
+                        vals = part.split('/')
+                        v_idx = int(vals[0]) - 1
+                        t_idx = int(vals[1]) - 1 if len(vals) > 1 and vals[1] else None
+                        n_idx = int(vals[2]) - 1 if len(vals) > 2 and vals[2] else None
+                        face.append((v_idx, t_idx, n_idx))
+                    faces.append(face)
+
+        return vertices, textures, normals, faces
 
     def draw(self):
         glPushMatrix()
-        glTranslatef(self.position[0], self.position[1], self.position[2])
-        glRotatef(self.rotation_y, 0, 1, 0)
-        
-        glColor3f(0.95, 0.95, 0.95)
+        glTranslatef(*self.position)
+        glRotatef(90, 0, 1, 0)
 
-        # Travessão
-        glPushMatrix()
-        glTranslatef(0, self.height, 0)
-        glScalef(self.width, self.post_thickness, self.post_thickness)
-        Primitives.draw_cube()
-        glPopMatrix()
+        glColor3f(1.0, 1.0, 1.0)  # cor branca para a trave
 
-        # Poste Esquerdo
-        glPushMatrix()
-        glTranslatef(-self.width / 2, self.height / 2, 0)
-        glScalef(self.post_thickness, self.height, self.post_thickness)
-        Primitives.draw_cube()
-        glPopMatrix()
+        for face in self.faces:
+            if len(face) == 3:
+                glBegin(GL_TRIANGLES)
+            else:
+                glBegin(GL_POLYGON)
+            
+            for vertex, _, normal in face:
+                glVertex3f(*self.vertices[vertex])
+            
+            glEnd()
 
-        # Poste Direito
-        glPushMatrix()
-        glTranslatef(self.width / 2, self.height / 2, 0)
-        glScalef(self.post_thickness, self.height, self.post_thickness)
-        Primitives.draw_cube()
-        glPopMatrix()
-        
+
         glPopMatrix()

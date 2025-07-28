@@ -51,20 +51,19 @@ class Skybox:
         # Top
         glBindTexture(GL_TEXTURE_2D, self.textures['top'])
         glBegin(GL_QUADS)
-        glTexCoord2f(0, 1); glVertex3f(-s,  s, -s)
-        glTexCoord2f(0, 0); glVertex3f(-s,  s,  s)
-        glTexCoord2f(1, 0); glVertex3f( s,  s,  s)
-        glTexCoord2f(1, 1); glVertex3f( s,  s, -s)
+        glTexCoord2f(0, 0); glVertex3f(-s,  s, -s) # t=0
+        glTexCoord2f(0, 1); glVertex3f(-s,  s,  s) # t=1
+        glTexCoord2f(1, 1); glVertex3f( s,  s,  s) # t=1
+        glTexCoord2f(1, 0); glVertex3f( s,  s, -s) # t=0
         glEnd()
 
         # Bottom
         glBindTexture(GL_TEXTURE_2D, self.textures['bottom'])
         glBegin(GL_QUADS)
-        glTexCoord2f(0, 0); glVertex3f(-s, -s, -s)
-        glTexCoord2f(0, 1); glVertex3f(-s, -s,  s)
-        glTexCoord2f(1, 1); glVertex3f( s, -s,  s)
-        glTexCoord2f(1, 0); glVertex3f( s, -s, -s)
+        glTexCoord2f(0, 1); glVertex3f(-s, -s, -s) # t=1
+        glTexCoord2f(0, 0); glVertex3f(-s, -s,  s) # t=0
+        glTexCoord2f(1, 0); glVertex3f( s, -s,  s) # t=0
+        glTexCoord2f(1, 1); glVertex3f( s, -s, -s) # t=1
         glEnd()
-
         glDepthMask(GL_TRUE)
         glDisable(GL_TEXTURE_2D)
