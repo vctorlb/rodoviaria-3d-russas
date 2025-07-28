@@ -5,10 +5,11 @@ from assets.primitives import Primitives
 import numpy as np
 
 class LockerRoom:
-    def __init__(self, position, scale=(1.0, 1.0, 1.0), rotation_y=0):
+    def __init__(self, position, scale=(1.0, 1.0, 1.0), rotation_y=0, governo_texture=None):
         self.position = np.array(position, dtype=float)
         self.scale = scale
         self.rotation_y = rotation_y
+        self.governo_texture = governo_texture
         
         width_orig = 4.0 * scale[0]
         depth_orig = 2.0 * scale[2]
@@ -23,6 +24,22 @@ class LockerRoom:
 
     def get_bounding_box(self):
         return (self.bb_center, self.bb_size)
+
+    def draw_textured_quad(self, texture_id, width, height):
+        """Desenha um quad com textura aplicada"""
+        if texture_id:
+            glEnable(GL_TEXTURE_2D)
+            glBindTexture(GL_TEXTURE_2D, texture_id)
+        
+        glBegin(GL_QUADS)
+        glTexCoord2f(0.0, 1.0); glVertex3f(-width/2, -height/2, 0.0)
+        glTexCoord2f(1.0, 1.0); glVertex3f(width/2, -height/2, 0.0)
+        glTexCoord2f(1.0, 0.0); glVertex3f(width/2, height/2, 0.0)
+        glTexCoord2f(0.0, 0.0); glVertex3f(-width/2, height/2, 0.0)
+        glEnd()
+        
+        if texture_id:
+            glDisable(GL_TEXTURE_2D)
 
     def draw(self):
         glPushMatrix()
@@ -53,5 +70,13 @@ class LockerRoom:
         glColor3f(0.6, 0.8, 0.9)
         Primitives.draw_cube()
         glPopMatrix()
+
+        # Placa do Governo do Estado na parede frontal
+        if self.governo_texture:
+            glPushMatrix()
+            glTranslatef(0, 0.7, 1.02)  # Centralizada na parede frontal, um pouco mais alta
+            glColor3f(1.0, 1.0, 1.0)  # Cor branca para não alterar a textura
+            self.draw_textured_quad(self.governo_texture, 1.5, 0.8)  # Tamanho da placa
+            glPopMatrix()
         
         glPopMatrix()
