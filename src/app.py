@@ -112,6 +112,7 @@ class App:
             'grass': TextureLoader.load(os.path.join(imgs_dir, 'grama.jpg')),
             'street': TextureLoader.load(os.path.join(imgs_dir, 'asfalto.jpg')),
             'sidewalk': TextureLoader.load(os.path.join(imgs_dir, 'calcada.png')),
+            'governo': TextureLoader.load(os.path.join(imgs_dir, 'governoDoEstado.jpg')),
             'skybox': {
                 'front': TextureLoader.load(os.path.join(skybox_dir, 'skyboxF.png'), repeat=False),
                 'back':  TextureLoader.load(os.path.join(skybox_dir, 'skyboxBack.png'), repeat=False),

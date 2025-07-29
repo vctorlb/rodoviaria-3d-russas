@@ -25,7 +25,8 @@ class Scene:
         self.locker_room = LockerRoom(
         position=(28.0, 0.0, -60.5),
         scale=(3.0, 4.5, 4.0),
-        rotation_y= 0.0
+        rotation_y= 0.0,
+        governo_texture=self.textures['governo']
 )
 
         

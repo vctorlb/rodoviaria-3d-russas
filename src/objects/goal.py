@@ -1,7 +1,12 @@
 from OpenGL.GL import *
+import os
 
 class Goal:
-    def __init__(self, position, rotation_y=0, obj_path="src\obj\Soccergoal.obj"):
+    def __init__(self, position, rotation_y=0, obj_path=None):
+        if obj_path is None:
+            current_dir = os.path.dirname(os.path.abspath(__file__))
+            project_root = os.path.dirname(os.path.dirname(current_dir))
+            obj_path = os.path.join(project_root, "src", "obj", "Soccergoal.obj")
         self.position = position
         self.rotation_y = rotation_y
         self.vertices, self.textures, self.normals, self.faces = self.load_obj(obj_path)
