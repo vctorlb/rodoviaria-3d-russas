@@ -54,13 +54,12 @@ class Scene:
 
     def get_colliders(self):
         return self.colliders
-    
-    
-
         
-    def draw(self, lighting_manager, is_day):
-        self.skybox.draw()
+    def draw(self, lighting_manager, is_day, camera_pos):
+        # 1. A skybox é desenhada primeiro, usando a posição da câmera
+        self.skybox.draw(camera_pos)
 
+        # 2. A iluminação é configurada
         if is_day:
             lighting_manager.setup_day()
         else:
@@ -78,6 +77,7 @@ class Scene:
                 lighting_manager.setup_spotlight(light_id, light_pos, norm_direction, [1.0, 1.0, 0.8], 1.5, cutoff_angle, 10)
                 lighting_manager.draw_spotlight_cone(light_pos, norm_direction, cutoff_angle)
 
+        # 3. O resto da cena é desenhado
         self.field.draw()
         self.environment.draw()
         self.locker_room.draw()

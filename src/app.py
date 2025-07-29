@@ -186,7 +186,7 @@ class App:
                           pos[0] + front[0], pos[1] + front[1], pos[2] + front[2], 
                           up[0], up[1], up[2])
             
-            self.scene.draw(self.lighting, self.is_day)
+            self.scene.draw(self.lighting, self.is_day, self.camera.camera_pos)
             glfw.swap_buffers(self.window)
             
         glfw.terminate()
